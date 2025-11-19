@@ -2,12 +2,16 @@
 addpath('E:\University\EngSci Thesis\Thesis work\functions');
 
 %% Automatically execute runMonthlyAnalysis.m for any year
-for year = 2025
-    for month = 1:2
+for year = 2005:2024
+    for month = 1:12
         runMonthlyAnalysis(year,month);
     end
 end
 
+%% Plot year-long area variation
+for year = 2005:2024
+    plot_areas_over_one_year(year);
+end
 %% Automatically execute plot_moving_std.m for any year
 for year = 2023:-1:2017
     plot_moving_std(year);

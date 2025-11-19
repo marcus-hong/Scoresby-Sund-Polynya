@@ -9,12 +9,19 @@ lonlim = [-24, -20.95];
 % load dataset
 datasetDir = fullfile('E:', 'University', 'EngSci Thesis', 'Thesis work', 'data', num2str(year));
 dataset_string = fullfile(datasetDir, sprintf('seaice_data_m%02u_y%u.mat', month, year));
-load(dataset_string);
+
+% Check existence and load or exit
+if isfile(dataset_string)
+    load(dataset_string);
+else
+    fprintf('Data file not found:\n  %s\nProgram terminated.\n', dataset_string);
+    return;   % exits the current script or function
+end
 
 areas = daily_area(seaice_ts, lat, lon, latlim, lonlim);
 
 % Save daily area data
-data_outputDir = fullfile('E:', 'University', 'EngSci Thesis', 'Thesis work', 'results',sprintf('%u', year));
+data_outputDir = fullfile('E:', 'University', 'EngSci Thesis', 'Thesis work', 'results','daily_area',sprintf('%u', year));
 if ~exist(data_outputDir, 'dir')
     mkdir(data_outputDir);
 end
