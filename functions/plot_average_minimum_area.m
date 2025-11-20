@@ -1,0 +1,51 @@
+function plot_average_minimum_area
+
+    baseDir = fullfile('E:', 'University', 'EngSci Thesis', 'Thesis work');
+    dataDir = fullfile(baseDir, 'results','all_min_areas');
+    figureDir = fullfile(baseDir, 'figures', 'average_min_area_per_month');
+    
+    if ~exist(figureDir, 'dir')
+        mkdir(figureDir);
+    end
+
+    monthly_mean = zeros(1, 12);
+    monthly_std = zeros(1, 12);
+    month_string = {'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'};
+    
+    for month = 1:12
+        % Load data
+        data_file_string = fullfile(dataDir, sprintf('min_areas_in_m%02u.mat', month));
+        S = load(data_file_string);
+        
+        % Take average
+        current_mean = mean(S.all_min_areas);
+        monthly_mean(month) = current_mean;
+
+        % Find standard deviation
+        current_std = std(S.all_min_areas);
+        monthly_std(month) = current_std;
+    end        
+    
+    % Plot
+    fig = figure('Visible','off', 'Units','normalized', 'Position',[0.2 0.2 0.5 0.4]);
+    
+    yyaxis left
+    plot(1:12, monthly_mean, 'Color', [0.6 0.6 0.6], 'LineWidth', 1);
+    ylabel('Average minimum area (km^2)');
+    
+    yyaxis right
+    plot(1:12, monthly_std, 'b', 'LineWidth', 1.5);
+    ylabel('Standard Deviation (km^2)');
+
+    xlabel('Month');
+    grid on;
+    title('Average Minimum Polynya Area Per Month');
+    xticks(1:12)
+    xticklabels(month_string);
+    legend('Average minimum area', 'Average std', 'Location', 'northwest');
+
+    % Save figure
+    figFilename = fullfile(figureDir, 'average_minimum_area_per_month.png');
+    exportgraphics(fig, figFilename, 'Resolution', 300);
+    close(fig);
+end

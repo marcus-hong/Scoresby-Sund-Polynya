@@ -29,6 +29,15 @@ for year = 2024:-1:2002
     plot_moving_std_of_polynya(year);
 end
 
+%%
+plot_average_maximum_area
+
+%%
+plot_average_minimum_area
+
+%%
+plot_average_max_vs_min_area;
+
 %% Visualize polynya at a certain day
 plot_extremum_of_month(1,2025)
 
