@@ -2,7 +2,7 @@ function plot_areas_over_one_year(year)
 
 baseDir = fullfile('E:', 'University', 'EngSci Thesis', 'Thesis work');
 dataDir = fullfile(baseDir, 'results','daily_area');
-figureDir = fullfile(baseDir, 'figures', 'yearly_plot');
+figureDir = fullfile(baseDir, 'figures', 'yearly_plot_of_daily_areas');
 
 all_area = [];
 all_dates = [];

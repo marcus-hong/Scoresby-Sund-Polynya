@@ -1,0 +1,23 @@
+Data file not found:
+  E:\University\EngSci Thesis\Thesis work\data\2011\seaice_data_m11_y2011.mat
+Program terminated.
+Data file not found:
+  E:\University\EngSci Thesis\Thesis work\data\2011\seaice_data_m12_y2011.mat
+Program terminated.
+Data file not found:
+  E:\University\EngSci Thesis\Thesis work\data\2012\seaice_data_m01_y2012.mat
+Program terminated.
+Data file not found:
+  E:\University\EngSci Thesis\Thesis work\data\2012\seaice_data_m02_y2012.mat
+Program terminated.
+Data file not found:
+  E:\University\EngSci Thesis\Thesis work\data\2012\seaice_data_m03_y2012.mat
+Program terminated.
+Data file not found:
+  E:\University\EngSci Thesis\Thesis work\data\2012\seaice_data_m04_y2012.mat
+Program terminated.
+Data file not found:
+  E:\University\EngSci Thesis\Thesis work\data\2012\seaice_data_m05_y2012.mat
+Program terminated.
+Data file not found:
+  E:\University\EngSci Thesis\Thesis work\data\2012\seaice_data_m06_y2012.mat

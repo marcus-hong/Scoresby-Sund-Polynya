@@ -9,12 +9,24 @@ for year = 2005:2024
 end
 
 %% Plot year-long area variation
-for year = 2005:2024
+for year = 2005
     plot_areas_over_one_year(year);
 end
-%% Automatically execute plot_moving_std.m for any year
-for year = 2023:-1:2017
-    plot_moving_std(year);
+
+%% Plot evolution of maximum areas of a month, say january, over the past 20-ish years
+for month = 1:12
+    plot_max_areas_across_years(month);
+end
+
+%% Plot evolution of minimum areas of a month, say january, over the past 20-ish years
+for month = 1:12
+    plot_min_areas_across_years(month);
+end
+
+%% Execute plot_moving_std.m for any year
+for year = 2024:-1:2002
+    disp('Im in the loop');
+    plot_moving_std_of_polynya(year);
 end
 
 %% Visualize polynya at a certain day

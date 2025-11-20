@@ -4,25 +4,12 @@
 % Adds Dec (previous year) and Jan (next year) data for window continuity.
 function plot_moving_std_of_polynya(targetYear)
 
-
 % --- User settings ---
 windowSize = 30;   % centered window (in days)
 
 baseDir = fullfile('E:', 'University', 'EngSci Thesis', 'Thesis work');
-dataDir = fullfile(baseDir, 'results');
+dataDir = fullfile(baseDir, 'results','daily_area');
 figureDir = fullfile(baseDir, 'figures', 'moving_std');
-
-% --- Helper function to load month safely ---
-% loadMonth = @(yr, mo) deal([], [], []);
-% loadMonth = @(yr, mo) ...
-%     ( ...
-%     ( ...
-%         isfile(fullfile(dataDir, num2str(yr), sprintf('daily_area_m%02u_y%u.mat', mo, yr))) ...
-%     ) * { ...
-%         load(fullfile(dataDir, num2str(yr), sprintf('daily_area_m%02u_y%u.mat', mo, yr)), ...
-%         'areas','day_ts','month_ts') ...
-%     } ...
-%     );
 
 % --- Load Dec (prev), 12 months (current), Jan (next) ---
 all_area = [];
@@ -35,6 +22,8 @@ if targetYear > 0
         S = load(dec_path, 'areas', 'digital_date_ts');
         all_area = [S.areas, all_area];
         all_dates = [S.digital_date_ts, all_dates];
+    else
+        disp(sprintf('%s file not loaded.\n', dec_path));
     end
 end
 
@@ -45,6 +34,8 @@ for m = 1:12
         S = load(path_m, 'areas', 'digital_date_ts');
         all_area = [all_area, S.areas];
         all_dates = [all_dates, S.digital_date_ts];
+    else
+        disp(sprintf('%s file not loaded.\n', path_m));
     end
 end
 
@@ -54,28 +45,28 @@ if isfile(jan_path)
     S = load(jan_path, 'areas', 'digital_date_ts');
     all_area = [all_area, S.areas];
     all_dates = [all_dates, S.digital_date_ts];
+else
+    disp(sprintf('%s file not loaded.\n', jan_path));
 end
 
 % --- Compute centered moving std ---
 mov_std = movstd(all_area, windowSize, 'omitnan');
 
-% Plot using datetime array for x-axis
-plot(all_dates, mov_std);
-
 % --- Extract main targetYear (discard prev/next targetYear dates used for continuity) ---
 inYear = year(all_dates) == targetYear;
 mov_std = mov_std(inYear);
-areas = all_area(inYear);
+all_area = all_area(inYear);
+all_dates = all_dates(inYear);
 
 % --- Plotting ---
 fig = figure('Visible','off', 'Units','normalized', 'Position',[0.2 0.2 0.5 0.4]);
 
 yyaxis left
-plot(day_ts, areas, 'Color', [0.6 0.6 0.6], 'LineWidth', 1);
+plot(all_dates, all_area, 'Color', [0.6 0.6 0.6], 'LineWidth', 1);
 ylabel('Open water area (km^2)');
 
 yyaxis right
-plot(day_ts, mov_std, 'b', 'LineWidth', 1.5);
+plot(all_dates, mov_std, 'b', 'LineWidth', 1.5);
 ylabel(sprintf('%d-day centered std (km^2)', windowSize));
 
 title(sprintf('Polynya Area and Moving Standard Deviation Over One Year (%u)', targetYear));
@@ -83,13 +74,10 @@ xlabel('Date');
 grid on;
 
 % Format x-axis: show first day of each month
-monthTicks = all_dates;
-xticks(monthTicks);
-xticklabels(datestr(monthTicks, 'mmm dd')); % "Jan 01", etc.
-ax = gca;
-ax.XTickLabelRotation = 45;
-ax.TickLabelInterpreter = 'none';
-xlim([datetime(targetYear,1,1), datetime(targetYear,12,31)]);
+is_firstday = day(all_dates)==1;
+xticks(all_dates(is_firstday));
+xticklabels(datestr(all_dates(is_firstday), 'mmm dd')); % "Jan 01", etc.
+xlim([all_dates(1), all_dates(end)]);
 legend({'Daily area','30-day std'}, 'Location', 'best');
 
 % --- Save figure ---
